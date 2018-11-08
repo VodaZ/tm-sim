@@ -31,18 +31,21 @@ Parameter *tapes* can be used to define initial tapes content. Number of tapes i
 
 ```javascript
 const q0 = getState(); // uses states generator to avoid duplicit states
+const q1 = getState();
 const qf = 'qf';
-const Q = [q0, 'q1', qf];
+const Q = [q0, q1, qf];
 const Σ = ['a', 'b', 'c', 'x', 'y', 'z'];
 const Γ = [...Σ, Del];
 
-cosnt δ = [
-	"(q1, a) -> (q3, (0, R))",
-	"(q1, a, b) -> (q3, (0, R), (1, a))",
-	...
+const δ = [
+  `(${q0}, Δ, Δ) -> (${q1}, (0, R), (1, R))`,
+  `(${q1}, a, a) -> (${q1}, (0, R), (1, L))`
 ];
 
-TM(Γ, δ, q0, qf, {0: 'ΔaΔ', 1: 'Δ'})
+const tm = TM(Γ, δ, q0, qf, {0: 'ΔaΔ', 1: 'Δaaa'});
+
+console.log(stateStr(tm))
+
 ```
 
 Rules are defined as follows (it is JS string):
@@ -61,6 +64,27 @@ Where
 * (1, a) ... write symbol *a* to tape 1
 
 Function TM returns object defining final state of TM.
+
+The function above will print info with states and position of tapes head in TM steps.
+
+```
+q0: 
+  0: ([Δ]aΔ), 
+  1: ([Δ]aaa)
+-----------------
+q1: 
+  0: (Δ[a]Δ), 
+  1: (Δ[a]aa)
+-----------------
+q1: 
+  0: (Δa[Δ]), 
+  1: ([Δ]aaa)
+-----------------
+q1: 
+  0: (Δa[Δ]), 
+  1: ([Δ]aaa)
+-----------------
+```
 
 TM Halting Problem
 ----
