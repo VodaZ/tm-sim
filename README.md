@@ -88,4 +88,4 @@ q1:
 
 TM Halting Problem
 ----
-It is not possible to say, whether TM is computing towards finite state, or it is cycling. To avoid this, program uses counter *maxSteps* to set maximum TM steps. Enlarge value of this variable to when you are suspicious that  TM needs more steps.
+It is not possible to say, whether TM is computing towards finite state, or it is cycling. To avoid this, program uses counter *maxSteps* to set maximum TM steps. Enlarge value of this variable when you are suspicious that TM needs more steps.
