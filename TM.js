@@ -94,7 +94,7 @@ const getIncrement = pipe(
 
 const noteq = complement(equals);
 
-const condChangeTapeSymbol = (symbol, pos) => when(
+const condChangeTapeSymbol = (symbol, pos) => when(
   () => allPass([
     noteq('L'),
     noteq('R')
@@ -102,7 +102,7 @@ const condChangeTapeSymbol = (symbol, pos) => when(
   update(pos, symbol)
 );
 
-const nthIsNil = i => pipe(
+const nthIsNil = i => pipe(
   nth(i),
   isNil
 );
@@ -168,7 +168,7 @@ const TM = (Γ, δ, q0, qf, tapes) => {
   };
         
   let maxSteps = 1000;
-  const cond = state => !state.finish && maxSteps > 0;
+  const cond = state => !state.finish && maxSteps > 0 && state.q !== qf;
   const f = state => {
     console.log(stateStr(state));
     
@@ -227,12 +227,9 @@ const Σ = ['a', 'b', 'c', 'x', 'y', 'z'];
 const Γ = [...Σ, Del];
 
 const δ = [
-  `(${q0}, Δ, Δ) -> (${q1}, (0, R), (1, R))`,
-  `(${q1}, a, a) -> (${q1}, (0, R), (1, L))`
+  `(${q0}, Δ, Δ) -> (${qf}, (0, R), (1, R))`
 ];
 
 const tm = TM(Γ, δ, q0, qf, {0: 'ΔaΔ', 1: 'Δaaa'});
 
 console.log(stateStr(tm))
-
-
